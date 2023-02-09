@@ -285,6 +285,24 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                                 </td>
                                                 <td>
                                                     <p class="text-xs text-secondary mb-0">
+                                                        Remise
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <p class="text-xs text-secondary mb-0">
+                                                        <%= f.getRemiseSurTotale()%>%
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <p class="text-xs text-secondary mb-0">
                                                         Total A payer
                                                     </p>
                                                 </td>

@@ -7,6 +7,7 @@ package metier;
 import dao.Connexion;
 import dao.ObjetBDD;
 import java.sql.Connection;
+import java.sql.Date;
 
 /**
  *
@@ -15,6 +16,7 @@ import java.sql.Connection;
 public class Client extends ObjetBDD {
     private String idClient ;
     private String nom ;
+    private Date DateNaissance;
 
     public String getIdClient() {
         return idClient;
@@ -43,7 +45,22 @@ public class Client extends ObjetBDD {
         System.arraycopy(lc, 0, val, 0, lc.length);
         return val ;
     }
+
+    public Date getDateNaissance() {
+        return DateNaissance;
+    }
+
+    public void setDateNaissance(Date DateNaissance) {
+        this.DateNaissance = DateNaissance;
+    }
     
+    public void getClient() throws Exception{
+        ObjetBDD[] lc=this.Find(null);
+        if(lc.length==0) throw new Exception("Aucun client trouvé");
+        Client c=(Client) lc[0];
+        this.setNom(c.getNom());
+        this.setDateNaissance(c.getDateNaissance());
+    }
     
     
 }

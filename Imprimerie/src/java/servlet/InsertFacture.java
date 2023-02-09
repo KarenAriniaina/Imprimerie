@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import metier.Client;
 import metier.Facture;
 import metier.SousFacture;
 
@@ -36,7 +37,11 @@ public class InsertFacture extends HttpServlet {
         Facture f=new Facture();
         try {
             f.setIdClient(request.getParameter("idClient"));
+            Client c=new Client();
+            c.setIdClient(f.getIdClient());
+            c.getClient();
             f.setDateFacture(Date.valueOf(request.getParameter("dateFacture")));
+            f.setDateNaissance(c.getDateNaissance());
             int nbr=Integer.valueOf(request.getParameter("nbr"));
             for(int i=0;i<nbr;i++){
                 SousFacture sf=new SousFacture(request.getParameter("designation"+Integer.toString(i)), Integer.valueOf(request.getParameter("quantite"+Integer.toString(i))),
