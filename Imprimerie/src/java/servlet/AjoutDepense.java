@@ -7,6 +7,7 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -34,9 +35,11 @@ public class AjoutDepense extends HttpServlet {
         try {
             String Designation=request.getParameter("designation");
             double montant=Double.parseDouble(request.getParameter("montant"));
+            Date datedepense=Date.valueOf(request.getParameter("datedepense"));
             Depense d=new Depense();
             d.setDesignation(Designation);
             d.setValeur(montant);
+            d.setDateDepense(datedepense);
             d.Create(null);
         } catch (Exception e) {
             request.setAttribute("error", e.getMessage());

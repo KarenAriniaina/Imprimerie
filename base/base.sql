@@ -444,7 +444,6 @@ ALTER TABLE Facture ADD COLUMN RemiseSurTotale DOUBLE PRECISION DEFAULT 0;
 
 ALTER TABLE Facture ALTER COLUMN GrandTotal SET DEFAULT 0;
 
-
 CREATE TABLE Depense (
   idDepense   varchar(30) NOT NULL, 
   Designation varchar(100) NOT NULL, 
@@ -455,15 +454,59 @@ CREATE TABLE Depense (
 CREATE SEQUENCE s_Depense START WITH 1;
 
 CREATE OR REPLACE VIEW v_SR AS
-  SELECT SUM(v.TotalPaye) as recette FROM v_Facture v;
+  SELECT
+  DatePaiement,
+  CASE 
+  WHEN SUM(MontantPaye) is null then 0
+  ELSE SUM(MontantPaye)
+  END 
+  as recette FROM facturepaiement GROUP BY DatePaiement;
 
 CREATE OR REPLACE VIEW v_SD AS
   SELECT 
+  DateDepense,
   CASE 
   WHEN SUM(valeur) is null then 0
   ELSE SUM(valeur)
   END 
-   as depense FROM depense;
+   as depense FROM depense GROUP BY DateDepense;
 
 CREATE OR REPLACE VIEW v_Caisse AS
-  SELECT recette,depense,recette-depense as reste from v_SR,v_SD;
+  SELECT DatePaiement,
+  CASE
+  WHEN recette is null then 0
+  ELSE recette
+  END,
+  CASE 
+  WHEN 
+  depense is NULL then 0
+  ELSE depense
+  END,  
+  CASE WHEN recette is null then 0-depense
+  WHEN depense is null then recette
+  ELSE recette-depense
+  END as reste from v_SR LEFT JOIN v_SD  ON (v_SR.DatePaiement=v_SD.DateDepense);
+
+ALTER TABLE Depense ADD COLUMN DateDepense DATE DEFAULT NOW();
+
+CREATE TABLE Report (
+  idReport   varchar(30) NOT NULL, 
+  DateReport date NOT NULL, 
+  Valeur     DOUBLE PRECISION NOT NULL, 
+  PRIMARY KEY (idReport)
+  );
+
+CREATE OR REPLACE VIEW v_DernierReport AS   SELECT * FROM Report ORDER BY DateReport DESC LIMIT 1;
+
+CREATE OR REPLACE VIEW v_CaisseTotale AS
+  SELECT
+  CASE 
+  WHEN r.valeur is not null THEN r.valeur+SUM(reste)
+  WHEN r.valeur is null THEN SUM(reste)
+  END as reste,
+  CASE 
+  WHEN r.valeur is not null THEN r.valeur+SUM(recette)
+  WHEN r.valeur is null THEN SUM(recette)
+  END as recette,
+  SUM(depense) as depense
+   FROM v_Caisse c LEFT JOIN v_DernierReport r ON (c.datepaiement>=r.DateReport) where c.datepaiement>=r.DateReport GROUP BY r.valeur;

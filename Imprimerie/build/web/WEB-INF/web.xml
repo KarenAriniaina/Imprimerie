@@ -52,6 +52,10 @@
         <servlet-name>VoirCaisse</servlet-name>
         <servlet-class>servlet.VoirCaisse</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AjoutReport</servlet-name>
+        <servlet-class>servlet.AjoutReport</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ListeActivite</servlet-name>
         <url-pattern>/ListeActivite</url-pattern>
@@ -106,6 +110,10 @@
     <servlet-mapping>
         <servlet-name>VoirCaisse</servlet-name>
         <url-pattern>/VoirCaisse</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AjoutReport</servlet-name>
+        <url-pattern>/AjoutReport</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

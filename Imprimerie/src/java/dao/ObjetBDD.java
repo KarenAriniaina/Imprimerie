@@ -63,12 +63,12 @@ public class ObjetBDD {
         if (isNumeric(value) == true) {
             if (isDouble(value) == true) {
                 double d = (double) Double.parseDouble(value);
-                if (d == 0.0 || d < 0.0) {
+                if (d == 0.0) {
                     normal = false;
                 }
             } else if (isInteger(value) == true) {
                 int d = (int) Integer.parseInt(value);
-                if (d == 0 || d < 0) {
+                if (d == 0) {
                     normal = false;
                 }
             }

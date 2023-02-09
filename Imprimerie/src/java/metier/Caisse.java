@@ -41,7 +41,7 @@ public class Caisse extends ObjetBDD {
     }
 
     public Caisse() {
-        this.setNomTable("v_Caisse");
+        this.setNomTable("v_CaisseTotale");
     }
     
     public void getCaisse() throws Exception{

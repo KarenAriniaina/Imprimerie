@@ -29,6 +29,7 @@ public class Facture extends Mere {
     private double totalPaye;
     private double ResteAPaye;
     private double RemiseSurTotale;
+    private Date DatePaiement;
 
     public double getRemiseSurTotale() {
         return RemiseSurTotale;
@@ -168,7 +169,8 @@ public class Facture extends Mere {
     }
 
     public boolean isPremiereFacture(Connection c) throws Exception {
-        ObjetBDD[] lf = new Facture().Find(c, "SELECT * FROM Facture where EXTRACT(year from DateFacture)=" + Integer.toString(this.getDateFacture().toLocalDate().getYear()) + " and idCLient='" + this.getIdClient() + "'");
+        ObjetBDD[] lf = new Facture().Find(c, "SELECT * FROM Facture where EXTRACT(year from DateFacture)=" + Integer.toString(this.getDateFacture().toLocalDate().getYear()
+        ) + " and idCLient='" + this.getIdClient() + "'");
         if (lf.length == 0) {
             return true;
         }
@@ -224,7 +226,15 @@ public class Facture extends Mere {
         return lf;
     }
 
-    public void payerFacture(double montant) throws Exception {
+    public Date getDatePaiement() {
+        return DatePaiement;
+    }
+
+    public void setDatePaiement(Date DatePaiement) {
+        this.DatePaiement = DatePaiement;
+    }
+
+    public void payerFacture(double montant,Date datepaiement) throws Exception {
         this.setNomTable("V_facture");
         this.setIdFacture(this.getIdFacture());
         Connection c = null;
@@ -239,6 +249,7 @@ public class Facture extends Mere {
             this.setResteAPaye(f.getResteAPaye());
             System.err.println("rete=" + f.getResteAPaye());
             this.setMontantPaye(montant);
+            this.setDatePaiement(datepaiement);
             this.setNomTable("FacturePaiement");
             this.setPrimaryKey("idFacturePaiement");
             super.Create(c);

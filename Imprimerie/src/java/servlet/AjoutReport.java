@@ -13,13 +13,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import metier.Facture;
+import metier.Report;
 
 /**
  *
  * @author Ari
  */
-public class PayerFacture extends HttpServlet {
+public class AjoutReport extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,18 +32,18 @@ public class PayerFacture extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String idFacture=request.getParameter("idFacture");
-        Date paie=Date.valueOf(request.getParameter("datepaiement"));
         try {
-            Facture f=new Facture();
-            f.setIdFacture(idFacture);
-            f.payerFacture(Double.valueOf(request.getParameter("montant")),paie);
+            Date dr=Date.valueOf(request.getParameter("datereport"));
+            double valeur=Double.parseDouble(request.getParameter("valeur"));
+            Report r=new Report();
+            r.setDateReport(dr);
+            r.setValeur(valeur);
+            r.Create(null);
         } catch (Exception e) {
             request.setAttribute("error", e.getMessage());
-            e.printStackTrace();
         }
         finally{
-            RequestDispatcher dispat = request.getRequestDispatcher("DetailFacture?idFacture="+idFacture);
+            RequestDispatcher dispat = request.getRequestDispatcher("AjoutReport.jsp");
             dispat.forward(request, response);
         }
     }

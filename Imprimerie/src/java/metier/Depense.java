@@ -6,6 +6,7 @@
 package metier;
 
 import dao.ObjetBDD;
+import java.sql.Date;
 
 /**
  *
@@ -15,6 +16,15 @@ public class Depense extends ObjetBDD{
     private String idDepense;
     private String Designation;
     private double Valeur;
+    private Date DateDepense;
+
+    public Date getDateDepense() {
+        return DateDepense;
+    }
+
+    public void setDateDepense(Date DateDepense) {
+        this.DateDepense = DateDepense;
+    }
 
     public String getDesignation() {
         return Designation;
