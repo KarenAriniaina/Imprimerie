@@ -432,4 +432,11 @@ CREATE OR REPLACE VIEW v_Facture AS
   FROM Facture F LEFT JOIN FacturePaiement FP ON (F.idFacture=FP.idFacture) 
   JOIN Client C ON (F.idClient=C.idClient) GROUP BY F.idFacture,C.Nom;
 
+ALTER TABLE Client ADD COLUMN DateNaissance Date;
 
+UPDATE Client SET DateNaissance='2004-04-01' where idClient='Client_1';
+UPDATE Client SET DateNaissance='2004-05-11' where idClient='Client_2';
+UPDATE Client SET DateNaissance='2000-11-05' where idClient='Client_3';
+UPDATE Client SET DateNaissance='2005-02-07' where idClient='Client_4';
+
+ALTER TABLE Facture ADD COLUMN RemiseSurTotale DOUBLE PRECISION DEFAULT 0;
