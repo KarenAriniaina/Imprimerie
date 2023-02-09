@@ -140,12 +140,18 @@ public class Facture extends Mere {
             c = new Connexion().getConnection();
             nullve = true;
         }
-        this.setEtatPaiement(1);
-        Date now = Date.valueOf(LocalDate.now());
-        if (this.getDateNaissance().getDate() == this.getDateFacture().getDate() && this.getDateNaissance().getMonth() == this.getDateFacture().getMonth()) {
-            this.setRemiseSurTotale(50);
+        if (!isPremiereFacture(c)) {
+            this.setEtatPaiement(1);
+            Date now = Date.valueOf(LocalDate.now());
+            if (this.getDateNaissance().getDate() == this.getDateFacture().getDate() && this.getDateNaissance().getMonth() == this.getDateFacture().getMonth()) {
+                this.setRemiseSurTotale(50);
+            }
+            this.calculGrandTotal();
         }
-        this.calculGrandTotal();
+        else{
+            this.setEtatPaiement(2);
+            this.setGrandTotal(0);
+        }
         super.Create(c);
         this.setIdFacture("Facture_" + Integer.toString(this.currentSequence(c)));
         for (Fille f : this.getListeFille()) {
@@ -161,14 +167,22 @@ public class Facture extends Mere {
         }
     }
 
+    public boolean isPremiereFacture(Connection c) throws Exception {
+        ObjetBDD[] lf = new Facture().Find(c, "SELECT * FROM Facture where EXTRACT(year from DateFacture)=" + Integer.toString(this.getDateFacture().toLocalDate().getYear()) + " and idCLient='" + this.getIdClient() + "'");
+        if (lf.length == 0) {
+            return true;
+        }
+        return false;
+    }
+
     public void calculGrandTotal() throws Exception {
         double total = 0;
         for (Fille f : getListeFille()) {
             SousFacture sf = (SousFacture) f;
             total += sf.getSousTotal();
         }
-        double remise=total*this.getRemiseSurTotale()/100;
-        this.setGrandTotal(total-remise);
+        double remise = total * this.getRemiseSurTotale() / 100;
+        this.setGrandTotal(total - remise);
     }
 
     public void getFiche() throws Exception {

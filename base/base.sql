@@ -440,3 +440,5 @@ UPDATE Client SET DateNaissance='2000-11-05' where idClient='Client_3';
 UPDATE Client SET DateNaissance='2005-02-07' where idClient='Client_4';
 
 ALTER TABLE Facture ADD COLUMN RemiseSurTotale DOUBLE PRECISION DEFAULT 0;
+
+ALTER TABLE Facture ALTER COLUMN GrandTotal SET DEFAULT 0;

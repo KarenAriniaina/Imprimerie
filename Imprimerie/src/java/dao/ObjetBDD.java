@@ -345,6 +345,7 @@ public class ObjetBDD {
         Statement st = null;
         ResultSet sett = null;
         ResultSet set = null;
+        System.err.println(sql);
         try {
             if (c == null) {
                 c = new Connexion().getConnection();
@@ -383,9 +384,6 @@ public class ObjetBDD {
             }
             val = new ObjetBDD[vale];
             System.arraycopy(valiny, 0, val, 0, val.length);
-            if (!nullve) {
-                c.close();
-            }
         } catch (Exception e) {
             throw e;
         } finally {
