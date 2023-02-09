@@ -118,7 +118,7 @@ public class ObjetBDD {
             st = c.createStatement();
             System.err.println(sql);
             st.execute(sql);
-            
+            c.commit();
         } catch (Exception e) {
             if(c != null){
                 c.rollback();

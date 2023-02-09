@@ -44,6 +44,14 @@
         <servlet-name>ListeProduit</servlet-name>
         <servlet-class>servlet.ListeProduit</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AjoutDepense</servlet-name>
+        <servlet-class>servlet.AjoutDepense</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VoirCaisse</servlet-name>
+        <servlet-class>servlet.VoirCaisse</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ListeActivite</servlet-name>
         <url-pattern>/ListeActivite</url-pattern>
@@ -90,6 +98,14 @@
     <servlet-mapping>
         <servlet-name>ListeProduit</servlet-name>
         <url-pattern>/ListeProduit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AjoutDepense</servlet-name>
+        <url-pattern>/AjoutDepense</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VoirCaisse</servlet-name>
+        <url-pattern>/VoirCaisse</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

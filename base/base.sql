@@ -85,6 +85,7 @@ CREATE SEQUENCE s_Salaire INCREMENT BY 1 MINVALUE 1 NO MAXVALUE START WITH 1;
 CREATE TABLE Activite (
   idActivite  varchar(20) NOT NULL, 
   Designation varchar(50) NOT NULL, 
+  MargeBeneficiaire DOUBLE PRECISION,
   PRIMARY KEY (idActivite));
 CREATE TABLE EmployeActivite (
   idEmployeActivite varchar(20) NOT NULL, 
@@ -442,3 +443,27 @@ UPDATE Client SET DateNaissance='2005-02-07' where idClient='Client_4';
 ALTER TABLE Facture ADD COLUMN RemiseSurTotale DOUBLE PRECISION DEFAULT 0;
 
 ALTER TABLE Facture ALTER COLUMN GrandTotal SET DEFAULT 0;
+
+
+CREATE TABLE Depense (
+  idDepense   varchar(30) NOT NULL, 
+  Designation varchar(100) NOT NULL, 
+  Valeur      DOUBLE PRECISION NOT NULL, 
+  PRIMARY KEY (idDepense)
+);
+
+CREATE SEQUENCE s_Depense START WITH 1;
+
+CREATE OR REPLACE VIEW v_SR AS
+  SELECT SUM(v.TotalPaye) as recette FROM v_Facture v;
+
+CREATE OR REPLACE VIEW v_SD AS
+  SELECT 
+  CASE 
+  WHEN SUM(valeur) is null then 0
+  ELSE SUM(valeur)
+  END 
+   as depense FROM depense;
+
+CREATE OR REPLACE VIEW v_Caisse AS
+  SELECT recette,depense,recette-depense as reste from v_SR,v_SD;
